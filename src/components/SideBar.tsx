@@ -12,15 +12,15 @@ import {
   InputGroup,
   InputLeftElement,
   Text,
-  VStack,
+  VStack
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import debounce from 'lodash.debounce';
 import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import StoreCardComponent from './StoreCardComponent';
 import { useFetchAllStores } from './hooks/useFetchAllStores';
+import StoreCardComponent from './StoreCardComponent';
 import { Store } from './types/Store';
 
 const SearchSchema = z.object({
@@ -156,7 +156,7 @@ export default function SideBar({ setSelectedStore }: Props) {
                 They were not found stores.
               </Text>
             ) : (
-              <Card>
+              <Card w="full">
                 {fetchedStores.map((store: Store) => {
                   return (
                     <Box
@@ -170,7 +170,7 @@ export default function SideBar({ setSelectedStore }: Props) {
                       }}
                     >
                       <CardBody px={0} py={2} onClick={() => handleOnClick(store)}>
-                        <Box>
+                        <Box >
                           <StoreCardComponent store={store} />
                         </Box>
 
