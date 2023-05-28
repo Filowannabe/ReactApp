@@ -15,12 +15,12 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import debounce from 'lodash.debounce';
 import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import StoreCardComponent from './StoreCardComponent';
+import { useFetchAllStores } from './hooks/useFetchAllStores';
 import { Store } from './types/Store';
 
 const SearchSchema = z.object({
@@ -29,18 +29,11 @@ const SearchSchema = z.object({
 
 type Props = {
   setSelectedStore: React.Dispatch<React.SetStateAction<Store | undefined>>;
-  fetchedStoresMutateAsync: UseMutateAsyncFunction<Store[], unknown, void, unknown>;
-  fetchedStores: Store[];
-  isLoadingFetchedStores: boolean;
 };
 type SearchSchema = z.infer<typeof SearchSchema>;
 
-export default function SideBar({
-  setSelectedStore,
-  fetchedStores,
-  fetchedStoresMutateAsync,
-  isLoadingFetchedStores,
-}: Props) {
+export default function SideBar({ setSelectedStore }: Props) {
+  const { fetchedStores, fetchedStoresMutateAsync, isLoadingFetchedStores } = useFetchAllStores();
   const {
     register,
     setError,
@@ -68,7 +61,7 @@ export default function SideBar({
     const searchValue = event.target.value;
     if (searchValue.length === 0 || searchValue.length >= 3) {
       clearErrors('search');
-      handleSearchDebounced();
+      handleSearchDebounced(searchValue);
     } else if (searchValue.length < 3) {
       setError('search', {
         type: 'min',

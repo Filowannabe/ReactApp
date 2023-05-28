@@ -8,7 +8,13 @@ import { Store } from '../types/Store';
 export const useFetchAllStores = () => {
   const toast = useToast();
   const { isLoading, mutateAsync, data } = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (search: string) => {
+      if (search) {
+        const { data } = await api.get<Array<Store>>(GET_ALL_STORES, {
+          params: { search: search },
+        });
+        return data;
+      }
       const { data } = await api.get<Array<Store>>(GET_ALL_STORES);
       return data;
     },
@@ -23,7 +29,7 @@ export const useFetchAllStores = () => {
   });
 
   useEffect(() => {
-    mutateAsync();
+    mutateAsync('');
   }, []);
 
   return {

@@ -1,3 +1,3 @@
-export const GET_ALL_STORES = '/store';
-export const UPDATE_PRODUCT_QUANTITY = '/product/:productId';
+export const GET_ALL_STORES = '/stores';
+export const UPDATE_PRODUCT_QUANTITY = '/products/:productId';
 
